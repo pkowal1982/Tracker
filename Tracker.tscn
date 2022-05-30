@@ -1,0 +1,180 @@
+[gd_scene load_steps=10 format=3 uid="uid://drlydb10clqv"]
+
+[ext_resource type="Script" path="res://script/Tracker.gd" id="1_4v2sa"]
+[ext_resource type="Texture2D" uid="uid://dwemddsmuvue4" path="res://image/cross.png" id="2_2c2w0"]
+[ext_resource type="Script" path="res://script/Image.gd" id="2_km377"]
+[ext_resource type="Texture2D" uid="uid://b8i06mi3tpfw3" path="res://image/test.jpg" id="2_nw8lc"]
+[ext_resource type="Script" path="res://script/Arrow.gd" id="5_8vrju"]
+[ext_resource type="Texture2D" uid="uid://phgvf7ax62au" path="res://image/open.png" id="5_f6eyi"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_pfocl"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_e77g4"]
+action = &"Open"
+pressed = true
+
+[sub_resource type="Shortcut" id="Shortcut_ol6we"]
+events = [SubResource( "InputEventAction_e77g4" )]
+
+[node name="Tracker" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( "1_4v2sa" )
+
+[node name="Image" type="TextureRect" parent="."]
+offset_left = -1.0
+offset_right = -1.0
+size_flags_horizontal = 4
+texture = ExtResource( "2_nw8lc" )
+stretch_mode = 2
+script = ExtResource( "2_km377" )
+
+[node name="MaskedImage" type="TextureRect" parent="."]
+offset_left = 640.0
+offset_right = 640.0
+size_flags_horizontal = 0
+texture = SubResource( "CompressedTexture2D_pfocl" )
+
+[node name="FileDialog" type="FileDialog" parent="."]
+title = "Open a File"
+popup_window = true
+file_mode = 0
+access = 2
+show_hidden_files = true
+
+[node name="Cross" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource( "2_2c2w0" )
+
+[node name="Gui" type="HBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 658.0
+offset_right = 821.0
+offset_bottom = 714.0
+
+[node name="HsvLabel" type="Label" parent="Gui"]
+offset_top = 2.0
+offset_right = 80.0
+offset_bottom = 54.0
+text = "HSV
+threshold:
+"
+horizontal_alignment = 2
+
+[node name="Hsv" type="VBoxContainer" parent="Gui"]
+offset_left = 84.0
+offset_right = 184.0
+offset_bottom = 56.0
+
+[node name="H" type="HSlider" parent="Gui/Hsv"]
+minimum_size = Vector2(100, 0)
+offset_right = 100.0
+offset_bottom = 16.0
+value = 10.0
+
+[node name="S" type="HSlider" parent="Gui/Hsv"]
+minimum_size = Vector2(100, 0)
+offset_top = 20.0
+offset_right = 100.0
+offset_bottom = 36.0
+value = 10.0
+
+[node name="V" type="HSlider" parent="Gui/Hsv"]
+minimum_size = Vector2(100, 0)
+offset_top = 40.0
+offset_right = 100.0
+offset_bottom = 56.0
+value = 10.0
+
+[node name="ColorLabel" type="Label" parent="Gui"]
+offset_left = 188.0
+offset_top = 15.0
+offset_right = 234.0
+offset_bottom = 41.0
+text = "Color:
+"
+horizontal_alignment = 2
+
+[node name="ColorPicker" type="ColorPickerButton" parent="Gui"]
+minimum_size = Vector2(48, 48)
+offset_left = 238.0
+offset_right = 286.0
+offset_bottom = 56.0
+color = Color(0, 0, 0.501961, 1)
+
+[node name="HsvTrack" type="CheckBox" parent="Gui"]
+offset_left = 290.0
+offset_right = 358.0
+offset_bottom = 56.0
+text = "HSV
+track"
+
+[node name="HsvMask" type="CheckBox" parent="Gui"]
+offset_left = 362.0
+offset_right = 465.0
+offset_bottom = 56.0
+text = "HSV track
+& mask"
+
+[node name="MarkerTrack" type="CheckBox" parent="Gui"]
+offset_left = 469.0
+offset_right = 554.0
+offset_bottom = 56.0
+text = "Marker
+track"
+
+[node name="Open" type="Button" parent="Gui"]
+minimum_size = Vector2(96, 0)
+offset_left = 558.0
+offset_right = 654.0
+offset_bottom = 56.0
+grow_vertical = 0
+shortcut_in_tooltip = false
+shortcut = SubResource( "Shortcut_ol6we" )
+text = "Open"
+metadata/_edit_layout_mode = 1
+
+[node name="Arrow" type="Sprite2D" parent="Gui/Open"]
+position = Vector2(128, 28)
+texture = ExtResource( "5_f6eyi" )
+script = ExtResource( "5_8vrju" )
+
+[node name="Help" type="RichTextLabel" parent="."]
+offset_left = 8.0
+offset_top = 486.0
+offset_right = 8.0
+offset_bottom = 656.0
+theme_override_constants/line_separation = 4
+bbcode_enabled = true
+text = "Take a screenshot of a marker with your webcam.
+Open image to track with [i][color=beige]Open button[/color][/i] in the bottom.
+Choose [i][color=beige]Color[/color][/i] by clicking on tracked image or using color picker.
+Bigger [i][color=beige]HSV threshold[/color][/i] values will match bigger region.
+[i][color=beige]Marker tracking[/color][/i] is searching for markers with diameter between 10 and 32 pixels.
+Big images are downscaled first to fit 640x480 window."
+
+[node name="Margin" type="MarginContainer" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -171.0
+offset_top = -42.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Status" type="Label" parent="Margin"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 163.0
+offset_bottom = 34.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.96, 0.96, 0.86, 1)
+text = "open image to track"
+horizontal_alignment = 2
+metadata/_edit_layout_mode = 1
